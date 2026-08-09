@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.iinitial.dmztweaks.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "dmztweaks.refmap.json",
+  "client": [
+
+  ],
+  "mixins": [
+
+  ],
+  "server": [
+
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
