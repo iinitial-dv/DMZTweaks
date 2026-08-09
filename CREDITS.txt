@@ -1,0 +1,14 @@
+DragonMineZ Auto Trainer: Credits/Thank You
+
+DragonMineZ Auto Trainer is a client-side automation mod built on top of
+Minecraft Forge and DragonMineZ. Thanks to:
+
+- The DragonMineZ team - Yuseix and ezShokkoh (Founders & Programmers),
+  Bruno (Community Admin), and contributors Bati2ra, KyoSleep, JotaJoestar,
+  and Toji71_ - for building the mod and minigames that this mod automates.
+  DragonMineZ (https://dragonminez.com) is licensed under the GNU General
+  Public License v3.0: https://github.com/DragonMineZ/dragonminez/blob/main/LICENSE
+- The Minecraft Forge / FML team, for the modding platform this mod is
+  built on (see the full Forge credits below).
+
+Author: iinitial
