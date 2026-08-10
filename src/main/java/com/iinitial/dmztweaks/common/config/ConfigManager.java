@@ -28,23 +28,23 @@ public class ConfigManager {
     }
 
     public static void loadClientConfig() {
-        Path file = FMLPaths.CONFIGDIR.get().resolve("dragonminez/dmztweaks-client.json");
+        Path file = FMLPaths.CONFIGDIR.get().resolve("dmztweaks-client.json");
         clientConfig = load(file, ClientConfig.class, new ClientConfig());
         save(file, clientConfig);
     }
 
     public static void loadServerConfig() {
-        Path file = FMLPaths.CONFIGDIR.get().resolve("dragonminez/dmztweaks-server.json");
+        Path file = FMLPaths.CONFIGDIR.get().resolve("dmztweaks-server.json");
         serverConfig = load(file, ServerConfig.class, new ServerConfig());
         save(file, serverConfig);
     }
 
     public static void saveClientConfig() {
-        save(FMLPaths.CONFIGDIR.get().resolve("dragonminez/dmztweaks-client.json"), clientConfig);
+        save(FMLPaths.CONFIGDIR.get().resolve("dmztweaks-client.json"), clientConfig);
     }
 
     public static void saveServerConfig() {
-        save(FMLPaths.CONFIGDIR.get().resolve("dragonminez/dmztweaks-server.json"), serverConfig);
+        save(FMLPaths.CONFIGDIR.get().resolve("dmztweaks-server.json"), serverConfig);
     }
 
     public static <T> T load(Path file, Class<T> type, T defaultValues) {
