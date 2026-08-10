@@ -43,6 +43,10 @@ public class ConfigManager {
         save(FMLPaths.CONFIGDIR.get().resolve("dragonminez/dmztweaks-client.json"), clientConfig);
     }
 
+    public static void saveServerConfig() {
+        save(FMLPaths.CONFIGDIR.get().resolve("dragonminez/dmztweaks-server.json"), serverConfig);
+    }
+
     public static <T> T load(Path file, Class<T> type, T defaultValues) {
         try {
             if (Files.notExists(file)) return defaultValues;
