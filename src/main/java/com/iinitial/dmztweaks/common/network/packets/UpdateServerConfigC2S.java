@@ -39,6 +39,7 @@ public class UpdateServerConfigC2S {
             switch (key) {
                 case "enableBalancedClasses" -> config.setBalancedClasses(value);
                 case "enableTelegraphedAttacks" -> config.setTelegraphedAttacks(value);
+                case "enableBetterMinigames" -> config.setBetterMinigames(value);
                 case "enablePreciseHealthGain" -> config.setPreciseHealthGain(value);
                 case "enablePreciseStaminaGain" -> config.setPreciseStaminaGain(value);
                 case "enablePreciseKiGain" -> config.setPreciseKiGain(value);

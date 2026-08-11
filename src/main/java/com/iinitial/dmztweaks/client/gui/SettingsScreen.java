@@ -184,21 +184,12 @@ public class SettingsScreen extends BaseMenuScreen {
         // via SyncServerConfigS2C), NOT ConfigManager.server(). on a dedicated
         // server that's a separate instance only on the client.
         List<ToggleRow> rows = new ArrayList<>();
-        rows.add(new ToggleRow("Enable Balanced Classes",
-                ViewClientServerConfig::isBalancedClassesEnabled,
-                v -> sendServerToggle("enableBalancedClasses", v)));
-        rows.add(new ToggleRow("Enable Telegraphed Attacks",
-                ViewClientServerConfig::isEnableTelegraphedAttacks,
-                v -> sendServerToggle("enableTelegraphedAttacks", v)));
-        rows.add(new ToggleRow("Enable Precise Health Gain",
-                ViewClientServerConfig::isEnablePreciseHealthGain,
-                v -> sendServerToggle("enablePreciseHealthGain", v)));
-        rows.add(new ToggleRow("Enable Precise Stamina Gain",
-                ViewClientServerConfig::isEnablePreciseStaminaGain,
-                v -> sendServerToggle("enablePreciseStaminaGain", v)));
-        rows.add(new ToggleRow("Enable Precise Ki Gain",
-                ViewClientServerConfig::isEnablePreciseKiGain,
-                v -> sendServerToggle("enablePreciseKiGain", v)));
+        rows.add(new ToggleRow("Enable Balanced Classes", ViewClientServerConfig::isBalancedClassesEnabled, v -> sendServerToggle("enableBalancedClasses", v)));
+        rows.add(new ToggleRow("Enable Telegraphed Attacks", ViewClientServerConfig::isTelegraphedAttacksEnabled, v -> sendServerToggle("enableTelegraphedAttacks", v)));
+        rows.add(new ToggleRow("Enable Better Minigames", ViewClientServerConfig::isBetterMinigamesEnabled, v -> sendServerToggle("enableBetterMinigames", v)));
+        rows.add(new ToggleRow("Enable Precise Health Gain", ViewClientServerConfig::isPreciseHealthGainEnabled, v -> sendServerToggle("enablePreciseHealthGain", v)));
+        rows.add(new ToggleRow("Enable Precise Stamina Gain", ViewClientServerConfig::isPreciseStaminaGainEnabled, v -> sendServerToggle("enablePreciseStaminaGain", v)));
+        rows.add(new ToggleRow("Enable Precise Ki Gain", ViewClientServerConfig::isPreciseKiGainEnabled, v -> sendServerToggle("enablePreciseKiGain", v)));
         return rows;
     }
 

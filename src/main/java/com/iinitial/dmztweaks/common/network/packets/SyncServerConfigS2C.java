@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 public class SyncServerConfigS2C {
     private final boolean enableBalancedClasses;
     private final boolean enableTelegraphedAttacks;
+    private final boolean enableBetterMinigames;
     private final boolean enablePreciseHealthGain;
     private final boolean enablePreciseStaminaGain;
     private final boolean enablePreciseKiGain;
@@ -16,6 +17,7 @@ public class SyncServerConfigS2C {
     public SyncServerConfigS2C(ServerConfig config) {
         this.enableBalancedClasses = config.enableBalancedClasses;
         this.enableTelegraphedAttacks = config.enableTelegraphedAttacks;
+        this.enableBetterMinigames = config.enableBetterMinigames;
         this.enablePreciseHealthGain = config.enablePreciseHealthGain;
         this.enablePreciseStaminaGain = config.enablePreciseStaminaGain;
         this.enablePreciseKiGain = config.enablePreciseKiGain;
@@ -24,6 +26,7 @@ public class SyncServerConfigS2C {
     public SyncServerConfigS2C(FriendlyByteBuf buffer) {
         this.enableBalancedClasses = buffer.readBoolean();
         this.enableTelegraphedAttacks = buffer.readBoolean();
+        this.enableBetterMinigames = buffer.readBoolean();
         this.enablePreciseHealthGain = buffer.readBoolean();
         this.enablePreciseStaminaGain = buffer.readBoolean();
         this.enablePreciseKiGain = buffer.readBoolean();
@@ -32,6 +35,7 @@ public class SyncServerConfigS2C {
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeBoolean(enableBalancedClasses);
         buffer.writeBoolean(enableTelegraphedAttacks);
+        buffer.writeBoolean(enableBetterMinigames);
         buffer.writeBoolean(enablePreciseHealthGain);
         buffer.writeBoolean(enablePreciseStaminaGain);
         buffer.writeBoolean(enablePreciseKiGain);
@@ -43,6 +47,7 @@ public class SyncServerConfigS2C {
             ViewClientServerConfig.update(
                     enableBalancedClasses,
                     enableTelegraphedAttacks,
+                    enableBetterMinigames,
                     enablePreciseHealthGain,
                     enablePreciseStaminaGain,
                     enablePreciseKiGain
