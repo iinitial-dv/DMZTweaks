@@ -3,8 +3,10 @@ package com.iinitial.dmztweaks;
 import com.iinitial.dmztweaks.client.DMZTweaksClient;
 import com.iinitial.dmztweaks.common.config.ConfigManager;
 import com.iinitial.dmztweaks.common.network.NetworkHandler;
+import com.iinitial.dmztweaks.server.command.DMZTweaksServerCommand;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -16,12 +18,17 @@ public class DMZTweaks {
     public static final String MOD_VERSION = FMLLoader.getLoadingModList().getModFileById(MOD_ID).versionString();
 
     public DMZTweaks() {
-        // NetworkHandler.CHANNEL.getClass();
-
+        // Sets up the SimpleChannel
+        NetworkHandler.register();
+        // Safe way to run client code from a class that also loads on dedicated servers
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> DMZTweaksClient::init);
+        // Checks if a server (singleplayer or dedicated) is about to start
         MinecraftForge.EVENT_BUS.addListener(this::onServerStart);
+        // When server is about to start, register command
+        MinecraftForge.EVENT_BUS.addListener(DMZTweaksServerCommand::register);
     }
 
+    // When server is about to start, read server configs and apply to server
     private void onServerStart(ServerAboutToStartEvent event) {
         ConfigManager.loadServerConfig();
     }

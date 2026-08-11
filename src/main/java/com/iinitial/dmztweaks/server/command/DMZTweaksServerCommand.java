@@ -14,7 +14,10 @@ import net.minecraftforge.network.PacketDistributor;
 public final class DMZTweaksServerCommand {
     private DMZTweaksServerCommand() {}
 
-    // "/dmztweaks reload"
+    /*  "/dmztweaks reload"
+    *   This is a server command so that clients cannot spoof their permissions to
+    *   force reload server configs for this mod
+    */
     public static void register(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         dispatcher.register(Commands.literal("dmztweaks")
