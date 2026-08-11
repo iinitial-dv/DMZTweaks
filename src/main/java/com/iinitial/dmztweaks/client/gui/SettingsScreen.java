@@ -85,6 +85,10 @@ public class SettingsScreen extends BaseMenuScreen {
     protected void init() {
         super.init();
         this.isOp = Minecraft.getInstance().player != null && Minecraft.getInstance().player.hasPermissions(2);
+        // getUiWidth()/getUiHeight() are NOT the same as this.width/this.height.
+        // They're the already scaled dimensions ScaledScreen uses so the menu
+        // renders at a consistent size regardless of the player's actual window
+        // size / GUI scale setting.
         this.menuX = this.getUiWidth() / 2 - MENU_WIDTH / 2;
         this.menuY = this.getUiHeight() / 2 - MENU_HEIGHT / 2;
         this.initTabs();
@@ -113,26 +117,32 @@ public class SettingsScreen extends BaseMenuScreen {
     private void switchTab(Tab tab) {
         if (tab == Tab.SERVER && !isOp) return; // shouldn't happen, but just in case
         this.currentTab = tab;
-        this.scrollOffset = 0;
+        this.scrollOffset = 0; // reset scroll so switching tabs doesn't leave you scrolled into empty space on the shorter list
         rebuildSettingsList();
     }
 
     private void rebuildSettingsList() {
-        // clear out the old tab then add the new one
+        // clear out the old tab's switches before adding the new tab's. this is
+        // what makes tabs "replace" each other
         for (SwitchButton button : settingSwitches) this.removeWidget(button);
         settingSwitches.clear();
         settingLabels.clear();
-        // set up the scrolling
+
+        // figure out how much there is to scroll through for whichever tab is active
         List<ToggleRow> rows = currentTab == Tab.CLIENT ? buildClientRows() : buildServerRows();
         this.totalRows = rows.size();
         this.maxScroll = Math.max(0, rows.size() - MAX_VISIBLE_ROWS);
-        this.scrollOffset = Math.min(this.scrollOffset, this.maxScroll);
+        this.scrollOffset = Math.min(this.scrollOffset, this.maxScroll); // clamp in case rows shrank
 
         int startY = menuY + TAB_Y + TAB_HEIGHT + 14;
         int switchX = menuX + MENU_WIDTH - 45;
+        // only build widgets for rows currently scrolled into view. everything
+        // above/below the visible window doesn't get a widget at all
         int visibleEnd = Math.min(scrollOffset + MAX_VISIBLE_ROWS, rows.size());
         int trackHeight = MAX_VISIBLE_ROWS * ROW_HEIGHT;
-        scrollBar.update(menuX + MENU_WIDTH - SCROLLBAR_FROM_RIGHT, SCROLLBAR_WIDTH, startY, trackHeight, maxScroll);
+
+        // tells the scrollbar where its track lives
+        scrollBar.update(menuX + MENU_WIDTH - SCROLLBAR_FROM_RIGHT, SCROLLBAR_WIDTH, startY - 5, trackHeight, maxScroll);
 
         for (int i = scrollOffset; i < visibleEnd; i++) {
             ToggleRow row = rows.get(i);
@@ -170,6 +180,9 @@ public class SettingsScreen extends BaseMenuScreen {
     }
 
     private List<ToggleRow> buildServerRows() {
+        // Reads from ViewClientServerConfig (the last value the server pushed to us
+        // via SyncServerConfigS2C), NOT ConfigManager.server(). on a dedicated
+        // server that's a separate instance only on the client.
         List<ToggleRow> rows = new ArrayList<>();
         rows.add(new ToggleRow("Enable Balanced Classes",
                 ViewClientServerConfig::isBalancedClassesEnabled,
@@ -190,16 +203,30 @@ public class SettingsScreen extends BaseMenuScreen {
     }
 
     private void sendServerToggle(String key, boolean value) {
+        // Server re-checks op permission on its end before applying this.
+        // this client-side gating (isOp / the Server tab not existing for
+        // non-ops) is UX only, never the actual security boundary.
         NetworkHandler.INSTANCE.send(
                 net.minecraftforge.network.PacketDistributor.SERVER.noArg(),
                 new UpdateServerConfigC2S(key, value)
         );
     }
 
+    private int[] scrollRegion() {
+        int left = menuX + 19;
+        int right = menuX + MENU_WIDTH - 19;
+        int trackY = menuY + TAB_Y + TAB_HEIGHT + 9;
+        int trackHeight = MAX_VISIBLE_ROWS * ROW_HEIGHT;
+        return new int[]{left, right, trackY, trackY + trackHeight};
+    }
+
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (scrollBar.tryStartDrag(mouseX, mouseY)) {
-            scrollOffset = Math.round(scrollBar.scrollFor(mouseY));
+        double uiMouseX = toUiX(mouseX);
+        double uiMouseY = toUiY(mouseY);
+
+        if (scrollBar.tryStartDrag(uiMouseX, uiMouseY)) {
+            scrollOffset = Math.round(scrollBar.scrollFor(uiMouseY));
             rebuildSettingsList();
             return true;
         }
@@ -208,8 +235,10 @@ public class SettingsScreen extends BaseMenuScreen {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        double uiMouseY = toUiY(mouseY);
+
         if (scrollBar.isDragging()) {
-            scrollOffset = Math.round(scrollBar.scrollFor(mouseY));
+            scrollOffset = Math.round(scrollBar.scrollFor(uiMouseY));
             rebuildSettingsList();
             return true;
         }
@@ -227,10 +256,14 @@ public class SettingsScreen extends BaseMenuScreen {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        boolean overPanel = mouseX >= menuX && mouseX <= menuX + MENU_WIDTH
-                && mouseY >= menuY && mouseY <= menuY + MENU_HEIGHT;
+        double uiMouseX = toUiX(mouseX);
+        double uiMouseY = toUiY(mouseY);
 
-        if (overPanel && maxScroll > 0) {
+        int[] region = scrollRegion();
+        boolean overRegion = uiMouseX >= region[0] && uiMouseX <= region[1]
+                && uiMouseY >= region[2] && uiMouseY <= region[3];
+
+        if (overRegion && maxScroll > 0) {
             int amount = (int) Math.signum(delta);
             int newOffset = Math.max(0, Math.min(maxScroll, scrollOffset - amount));
             if (newOffset != scrollOffset) {
@@ -254,23 +287,28 @@ public class SettingsScreen extends BaseMenuScreen {
         graphics.blit(MENU, menuX, menuY, 0, 0, MENU_WIDTH, MENU_HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         super.render(graphics, uiMouseX, uiMouseY, partialTick);
 
-        // draw labels
+        // labels live outside SwitchButton itself (it's just the switch graphic,
+        // no text), so draw them manually next to each one every frame
         for (int i = 0; i < settingSwitches.size(); i++) {
             SwitchButton button = settingSwitches.get(i);
             String label = settingLabels.get(i);
             TextUtil.drawStringWithBorder(graphics, this.font, label,
                     menuX + 24, button.getY() + 1, 0xFFFFFFFF);
         }
-        //draw scrollbar
+
+        // only draw a scrollbar at all if there's actually more content than fits
         if (maxScroll > 0) {
             int barX = menuX + MENU_WIDTH - SCROLLBAR_FROM_RIGHT;
             int trackY = menuY + TAB_Y + TAB_HEIGHT + 9;
             int trackHeight = MAX_VISIBLE_ROWS * ROW_HEIGHT;
 
+            // scrollbar track - three fills to fake a simple beveled border
             graphics.fill(barX, trackY + 1, barX + 1, trackY + trackHeight - 1, 0xFF13101A);
             graphics.fill(barX + 1, trackY, barX + SCROLLBAR_WIDTH - 1, trackY + trackHeight, 0xFF13101A);
             graphics.fill(barX + SCROLLBAR_WIDTH - 1, trackY + 1, barX + SCROLLBAR_WIDTH, trackY + trackHeight - 1, 0xFF13101A);
 
+            // scrollbar handle - sized to how much of the list is visible,
+            // positioned based on how scrolled you are
             float visiblePercent = (float) MAX_VISIBLE_ROWS / totalRows;
             int handleHeight = Math.max(20, (int) (trackHeight * visiblePercent));
             float scrollPercent = (float) scrollOffset / maxScroll;
@@ -280,7 +318,6 @@ public class SettingsScreen extends BaseMenuScreen {
             graphics.fill(barX + 1, handleY + 1, barX + SCROLLBAR_WIDTH - 1, handleY + handleHeight - 1, 0xFF4E3f6B);
             graphics.fill(barX + SCROLLBAR_WIDTH - 1, handleY + 2, barX + SCROLLBAR_WIDTH, handleY + handleHeight - 2, 0xFF4E3f6B);
         }
-
         endUiScale(graphics);
     }
 
