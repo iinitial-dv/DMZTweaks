@@ -6,7 +6,6 @@ import com.iinitial.dmztweaks.common.network.NetworkHandler;
 import com.iinitial.dmztweaks.server.command.DMZTweaksServerCommand;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;

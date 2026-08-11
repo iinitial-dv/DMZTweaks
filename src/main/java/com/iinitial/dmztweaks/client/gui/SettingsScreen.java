@@ -31,51 +31,19 @@ public class SettingsScreen extends BaseMenuScreen {
     private static final int TAB_WIDTH = 90;
     private static final int TAB_HEIGHT = 13;
     private static final int TAB_Y = 21;
-
-    private enum Tab { CLIENT, SERVER }
-
-    // Uses my "selected" texture whenever it's the active tab, or you're just hovering over it
-    private class TabButton extends Button {
-        private final Tab tab;
-        private final int uUnselected, vUnselected, uSelected, vSelected;
-
-        TabButton(int x, int y, Tab tab, int uUnselected, int vUnselected, int uSelected, int vSelected, OnPress onPress) {
-            super(x, y, TAB_WIDTH, TAB_HEIGHT, Component.empty(), onPress, DEFAULT_NARRATION);
-            this.tab = tab;
-            this.uUnselected = uUnselected;
-            this.vUnselected = vUnselected;
-            this.uSelected = uSelected;
-            this.vSelected = vSelected;
-        }
-
-        @Override
-        protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-            boolean showSelected = tab == currentTab || this.isHovered();
-            int u = showSelected ? uSelected : uUnselected;
-            int v = showSelected ? vSelected : vUnselected;
-            graphics.blit(MENU, this.getX(), this.getY(), u, v, TAB_WIDTH, TAB_HEIGHT, TEX_WIDTH, TEX_HEIGHT);
-        }
-
-        @Override
-        public void playDownSound(SoundManager handler) {
-            handler.play(SimpleSoundInstance.forUI(MainSounds.UI_MENU_SWITCH.get(), 1.0F));
-        }
-    }
-
-    private record ToggleRow(String label, BooleanSupplier getter, Consumer<Boolean> setter) {}
     private static final int MAX_VISIBLE_ROWS = 6;
     private static final int ROW_HEIGHT = 20;
     private static final int SCROLLBAR_WIDTH = 4;
     private static final int SCROLLBAR_FROM_RIGHT = 23;
+    private final ScrollbarState scrollBar = new ScrollbarState();
+    private final List<SwitchButton> settingSwitches = new ArrayList<>();
+    private final List<String> settingLabels = new ArrayList<>();
     private Tab currentTab = Tab.CLIENT;
     private boolean isOp;
     private int menuX, menuY;
     private int scrollOffset = 0;
     private int maxScroll = 0;
     private int totalRows = 0;
-    private final ScrollbarState scrollBar = new ScrollbarState();
-    private final List<SwitchButton> settingSwitches = new ArrayList<>();
-    private final List<String> settingLabels = new ArrayList<>();
 
     public SettingsScreen() {
         super(Component.literal("dmztweaks settings menu"));
@@ -150,7 +118,7 @@ public class SettingsScreen extends BaseMenuScreen {
             boolean isOn = row.getter().getAsBoolean();
 
             SwitchButton switchButton = new SwitchButton(switchX, y, isOn, Component.empty(), button -> {
-                boolean current = ((SwitchButton) button).isActive();
+                boolean current = button.isActive();
                 boolean newValue = !current;
                 row.setter().accept(newValue);
                 ((SwitchButton) button).setActive(newValue);
@@ -310,6 +278,39 @@ public class SettingsScreen extends BaseMenuScreen {
             graphics.fill(barX + SCROLLBAR_WIDTH - 1, handleY + 2, barX + SCROLLBAR_WIDTH, handleY + handleHeight - 2, 0xFF4E3f6B);
         }
         endUiScale(graphics);
+    }
+
+    private enum Tab {CLIENT, SERVER}
+
+    private record ToggleRow(String label, BooleanSupplier getter, Consumer<Boolean> setter) {
+    }
+
+    // Uses my "selected" texture whenever it's the active tab, or you're just hovering over it
+    private class TabButton extends Button {
+        private final Tab tab;
+        private final int uUnselected, vUnselected, uSelected, vSelected;
+
+        TabButton(int x, int y, Tab tab, int uUnselected, int vUnselected, int uSelected, int vSelected, OnPress onPress) {
+            super(x, y, TAB_WIDTH, TAB_HEIGHT, Component.empty(), onPress, DEFAULT_NARRATION);
+            this.tab = tab;
+            this.uUnselected = uUnselected;
+            this.vUnselected = vUnselected;
+            this.uSelected = uSelected;
+            this.vSelected = vSelected;
+        }
+
+        @Override
+        protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+            boolean showSelected = tab == currentTab || this.isHovered();
+            int u = showSelected ? uSelected : uUnselected;
+            int v = showSelected ? vSelected : vUnselected;
+            graphics.blit(MENU, this.getX(), this.getY(), u, v, TAB_WIDTH, TAB_HEIGHT, TEX_WIDTH, TEX_HEIGHT);
+        }
+
+        @Override
+        public void playDownSound(SoundManager handler) {
+            handler.play(SimpleSoundInstance.forUI(MainSounds.UI_MENU_SWITCH.get(), 1.0F));
+        }
     }
 
 }

@@ -16,8 +16,8 @@ import java.nio.file.Path;
 public class ConfigManager {
     private static final Logger LOGGER = LogUtils.getLogger();
     private final static Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static ClientConfig clientConfig = new  ClientConfig();
-    private static ServerConfig serverConfig =  new  ServerConfig();
+    private static ClientConfig clientConfig = new ClientConfig();
+    private static ServerConfig serverConfig = new ServerConfig();
 
     public static ClientConfig client() {
         return clientConfig;
@@ -53,7 +53,7 @@ public class ConfigManager {
 
             try (Reader reader = Files.newBufferedReader(file)) {
                 T loaded = GSON.fromJson(reader, type);
-                return loaded !=  null ? loaded : defaultValues;
+                return loaded != null ? loaded : defaultValues;
             }
         } catch (IOException | JsonSyntaxException e) {
             LOGGER.error("Failed to load config from {}, falling back to defaults", file, e);

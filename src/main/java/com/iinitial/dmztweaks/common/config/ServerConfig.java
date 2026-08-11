@@ -14,33 +14,55 @@ public class ServerConfig {
     public boolean enablePreciseKiGain;
 
     // Getters for Server related Configs
-    public boolean isBalancedClassesEnabled() { return enableBalancedClasses; }
-    public boolean isTelegraphedAttacksEnabled() { return enableTelegraphedAttacks; }
-    public boolean isBetterMinigamesEnabled() { return enableBetterMinigames; }
-    public boolean isPreciseHealthGainEnabled() { return enablePreciseHealthGain; }
-    public boolean isPreciseStaminaGainEnabled() { return enablePreciseStaminaGain; }
-    public boolean isPreciseKiGainEnabled() { return enablePreciseKiGain; }
+    public boolean isBalancedClassesEnabled() {
+        return enableBalancedClasses;
+    }
+
+    public boolean isTelegraphedAttacksEnabled() {
+        return enableTelegraphedAttacks;
+    }
+
+    public boolean isBetterMinigamesEnabled() {
+        return enableBetterMinigames;
+    }
+
+    public boolean isPreciseHealthGainEnabled() {
+        return enablePreciseHealthGain;
+    }
+
+    public boolean isPreciseStaminaGainEnabled() {
+        return enablePreciseStaminaGain;
+    }
+
+    public boolean isPreciseKiGainEnabled() {
+        return enablePreciseKiGain;
+    }
 
     // Setters for Server related Configs
     public void setBalancedClasses(boolean value) {
         enableBalancedClasses = value;
         ConfigManager.saveServerConfig();
     }
+
     public void setTelegraphedAttacks(boolean value) {
         enableTelegraphedAttacks = value;
         ConfigManager.saveServerConfig();
     }
+
     public void setBetterMinigames(boolean value) {
         enableBetterMinigames = value;
     }
+
     public void setPreciseHealthGain(boolean value) {
         enablePreciseHealthGain = value;
         ConfigManager.saveServerConfig();
     }
+
     public void setPreciseStaminaGain(boolean value) {
         enablePreciseStaminaGain = value;
         ConfigManager.saveServerConfig();
     }
+
     public void setPreciseKiGain(boolean value) {
         enablePreciseKiGain = value;
         ConfigManager.saveServerConfig();

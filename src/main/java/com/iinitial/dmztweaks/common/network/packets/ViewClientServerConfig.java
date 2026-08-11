@@ -23,10 +23,27 @@ public class ViewClientServerConfig {
         return received;
     }
 
-    public static boolean isBalancedClassesEnabled() { return enableBalancedClasses; }
-    public static boolean isTelegraphedAttacksEnabled() { return enableTelegraphedAttacks; }
-    public static boolean isBetterMinigamesEnabled() { return enableBetterMinigames; }
-    public static boolean isPreciseHealthGainEnabled() { return enablePreciseHealthGain; }
-    public static boolean isPreciseStaminaGainEnabled() { return enablePreciseStaminaGain; }
-    public static boolean isPreciseKiGainEnabled() { return enablePreciseKiGain; }
+    public static boolean isBalancedClassesEnabled() {
+        return enableBalancedClasses;
+    }
+
+    public static boolean isTelegraphedAttacksEnabled() {
+        return enableTelegraphedAttacks;
+    }
+
+    public static boolean isBetterMinigamesEnabled() {
+        return enableBetterMinigames;
+    }
+
+    public static boolean isPreciseHealthGainEnabled() {
+        return enablePreciseHealthGain;
+    }
+
+    public static boolean isPreciseStaminaGainEnabled() {
+        return enablePreciseStaminaGain;
+    }
+
+    public static boolean isPreciseKiGainEnabled() {
+        return enablePreciseKiGain;
+    }
 }

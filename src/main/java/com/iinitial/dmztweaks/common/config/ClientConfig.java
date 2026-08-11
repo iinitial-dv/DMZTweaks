@@ -13,13 +13,33 @@ public final class ClientConfig {
     public boolean enableKiGainInHud;
 
     // Getters for Client related Configs
-    public boolean isTelegraphedAttacksEnabled() { return enableTelegraphedAttacks; }
-    public boolean isHealthGainEnabled() { return enableHealthGain; }
-    public boolean isStaminaGainEnabled() { return enableStaminaGain; }
-    public boolean isKiGainEnabled() { return enableKiGain; }
-    public boolean isHealthGainInHudEnabled() { return enableHealthGainInHud; }
-    public boolean isStaminaGainInHudEnabled() { return enableStaminaGainInHud; }
-    public boolean isKiGainInHudEnabled() { return enableKiGainInHud; }
+    public boolean isTelegraphedAttacksEnabled() {
+        return enableTelegraphedAttacks;
+    }
+
+    public boolean isHealthGainEnabled() {
+        return enableHealthGain;
+    }
+
+    public boolean isStaminaGainEnabled() {
+        return enableStaminaGain;
+    }
+
+    public boolean isKiGainEnabled() {
+        return enableKiGain;
+    }
+
+    public boolean isHealthGainInHudEnabled() {
+        return enableHealthGainInHud;
+    }
+
+    public boolean isStaminaGainInHudEnabled() {
+        return enableStaminaGainInHud;
+    }
+
+    public boolean isKiGainInHudEnabled() {
+        return enableKiGainInHud;
+    }
 
     // Setters for Client related Configs
     public void setTelegraphedAttacks(boolean value) {
@@ -31,22 +51,27 @@ public final class ClientConfig {
         enableHealthGain = value;
         ConfigManager.saveClientConfig();
     }
+
     public void setStaminaGain(boolean value) {
         enableStaminaGain = value;
         ConfigManager.saveClientConfig();
     }
+
     public void setKiGain(boolean value) {
         enableKiGain = value;
         ConfigManager.saveClientConfig();
     }
+
     public void setHealthGainInHud(boolean value) {
         enableHealthGainInHud = value;
         ConfigManager.saveClientConfig();
     }
+
     public void setStaminaGainInHud(boolean value) {
         enableStaminaGainInHud = value;
         ConfigManager.saveClientConfig();
     }
+
     public void setKiGainInHud(boolean value) {
         enableKiGainInHud = value;
         ConfigManager.saveClientConfig();

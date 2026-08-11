@@ -1,12 +1,7 @@
 package com.iinitial.dmztweaks.mixin.client;
 
 import com.dragonminez.client.gui.buttons.CustomTextureButton;
-import com.dragonminez.client.gui.character.CharacterStatsScreen;
-import com.dragonminez.client.gui.character.ConfigMenuScreen;
-import com.dragonminez.client.gui.character.MinigamesScreen;
-import com.dragonminez.client.gui.character.PartyMenuScreen;
-import com.dragonminez.client.gui.character.QuestTreeScreen;
-import com.dragonminez.client.gui.character.SkillsMenuScreen;
+import com.dragonminez.client.gui.character.*;
 import com.dragonminez.client.gui.character.util.BaseMenuScreen;
 import com.dragonminez.client.gui.character.util.ScaledScreen;
 import com.dragonminez.common.init.MainSounds;
