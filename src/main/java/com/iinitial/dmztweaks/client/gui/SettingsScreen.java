@@ -137,13 +137,13 @@ public class SettingsScreen extends BaseMenuScreen {
     private List<ToggleRow> buildClientRows() {
         var client = ConfigManager.client();
         List<ToggleRow> rows = new ArrayList<>();
-        rows.add(new ToggleRow("Show Telegraphed Attacks", client::isTelegraphedAttacksEnabled, client::setTelegraphedAttacks));
-        rows.add(new ToggleRow("Show Health Gain", client::isHealthGainEnabled, client::setHealthGain));
-        rows.add(new ToggleRow("Show Stamina Gain", client::isStaminaGainEnabled, client::setStaminaGain));
-        rows.add(new ToggleRow("Show Ki Gain", client::isKiGainEnabled, client::setKiGain));
-        rows.add(new ToggleRow("Show Health Gain in HUD", client::isHealthGainInHudEnabled, client::setHealthGainInHud));
-        rows.add(new ToggleRow("Show Stamina Gain in HUD", client::isStaminaGainInHudEnabled, client::setStaminaGainInHud));
-        rows.add(new ToggleRow("Show Ki Gain in HUD", client::isKiGainInHudEnabled, client::setKiGainInHud));
+        rows.add(new ToggleRow("Show Telegraphed Attacks", client::isTelegraphedAttacksShown, client::setTelegraphedAttacks));
+        rows.add(new ToggleRow("Show Precise Health Gain", client::isPreciseHealthGainShown, client::setPreciseHealthGain));
+        rows.add(new ToggleRow("Show Precise Stamina Gain", client::isPreciseStaminaGainShown, client::setPreciseStaminaGain));
+        rows.add(new ToggleRow("Show Precise Ki Gain", client::isPreciseKiGainShown, client::setPreciseKiGain));
+        rows.add(new ToggleRow("Show Health Gain in HUD", client::isHealthGainInHudShown, client::setHealthGainInHud));
+        rows.add(new ToggleRow("Show Stamina Gain in HUD", client::isStaminaGainInHudShown, client::setStaminaGainInHud));
+        rows.add(new ToggleRow("Show Ki Gain in HUD", client::isKiGainInHudShown, client::setKiGainInHud));
         return rows;
     }
 

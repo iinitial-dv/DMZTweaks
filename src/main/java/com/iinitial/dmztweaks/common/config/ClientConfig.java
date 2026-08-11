@@ -2,78 +2,78 @@ package com.iinitial.dmztweaks.common.config;
 
 public final class ClientConfig {
     // Shows the arrow above enemies when about to attack if the setting is enabled in server config
-    public boolean enableTelegraphedAttacks;
+    public boolean showTelegraphedAttacks;
     // Shows the actually calculated health/stamina/ki gain or drain instead of the base value.
-    public boolean enableHealthGain;
-    public boolean enableStaminaGain;
-    public boolean enableKiGain;
+    public boolean showPreciseHealthGain;
+    public boolean showPreciseStaminaGain;
+    public boolean showPreciseKiGain;
     // Shows the same calculated health/stamina/ki gain or drain in the hud so players can see it there as well.
-    public boolean enableHealthGainInHud;
-    public boolean enableStaminaGainInHud;
-    public boolean enableKiGainInHud;
+    public boolean showHealthGainInHud;
+    public boolean showStaminaGainInHud;
+    public boolean showKiGainInHud;
 
     // Getters for Client related Configs
-    public boolean isTelegraphedAttacksEnabled() {
-        return enableTelegraphedAttacks;
+    public boolean isTelegraphedAttacksShown() {
+        return showTelegraphedAttacks;
     }
 
-    public boolean isHealthGainEnabled() {
-        return enableHealthGain;
+    public boolean isPreciseHealthGainShown() {
+        return showPreciseHealthGain;
     }
 
-    public boolean isStaminaGainEnabled() {
-        return enableStaminaGain;
+    public boolean isPreciseStaminaGainShown() {
+        return showPreciseStaminaGain;
     }
 
-    public boolean isKiGainEnabled() {
-        return enableKiGain;
+    public boolean isPreciseKiGainShown() {
+        return showPreciseKiGain;
     }
 
-    public boolean isHealthGainInHudEnabled() {
-        return enableHealthGainInHud;
+    public boolean isHealthGainInHudShown() {
+        return showHealthGainInHud;
     }
 
-    public boolean isStaminaGainInHudEnabled() {
-        return enableStaminaGainInHud;
+    public boolean isStaminaGainInHudShown() {
+        return showStaminaGainInHud;
     }
 
-    public boolean isKiGainInHudEnabled() {
-        return enableKiGainInHud;
+    public boolean isKiGainInHudShown() {
+        return showKiGainInHud;
     }
 
     // Setters for Client related Configs
     public void setTelegraphedAttacks(boolean value) {
-        enableTelegraphedAttacks = value;
+        showTelegraphedAttacks = value;
         ConfigManager.saveClientConfig();
     }
 
-    public void setHealthGain(boolean value) {
-        enableHealthGain = value;
+    public void setPreciseHealthGain(boolean value) {
+        showPreciseHealthGain = value;
         ConfigManager.saveClientConfig();
     }
 
-    public void setStaminaGain(boolean value) {
-        enableStaminaGain = value;
+    public void setPreciseStaminaGain(boolean value) {
+        showPreciseStaminaGain = value;
         ConfigManager.saveClientConfig();
     }
 
-    public void setKiGain(boolean value) {
-        enableKiGain = value;
+    public void setPreciseKiGain(boolean value) {
+        showPreciseKiGain = value;
         ConfigManager.saveClientConfig();
     }
 
     public void setHealthGainInHud(boolean value) {
-        enableHealthGainInHud = value;
+        showHealthGainInHud = value;
         ConfigManager.saveClientConfig();
     }
 
     public void setStaminaGainInHud(boolean value) {
-        enableStaminaGainInHud = value;
+        showStaminaGainInHud = value;
         ConfigManager.saveClientConfig();
     }
 
     public void setKiGainInHud(boolean value) {
-        enableKiGainInHud = value;
+        showKiGainInHud = value;
         ConfigManager.saveClientConfig();
     }
 }
