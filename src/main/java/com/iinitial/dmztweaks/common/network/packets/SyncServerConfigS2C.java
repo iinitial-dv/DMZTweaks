@@ -11,16 +11,16 @@ public class SyncServerConfigS2C {
     private final boolean enableTelegraphedAttacks;
     private final boolean enableBetterMinigames;
     private final boolean enablePreciseHealthGain;
-    private final boolean enablePreciseStaminaGain;
     private final boolean enablePreciseKiGain;
+    private final boolean enablePreciseStaminaGain;
 
     public SyncServerConfigS2C(ServerConfig config) {
         this.enableBalancedClasses = config.enableBalancedClasses;
         this.enableTelegraphedAttacks = config.enableTelegraphedAttacks;
         this.enableBetterMinigames = config.enableBetterMinigames;
         this.enablePreciseHealthGain = config.enablePreciseHealthGain;
-        this.enablePreciseStaminaGain = config.enablePreciseStaminaGain;
         this.enablePreciseKiGain = config.enablePreciseKiGain;
+        this.enablePreciseStaminaGain = config.enablePreciseStaminaGain;
     }
 
     public SyncServerConfigS2C(FriendlyByteBuf buffer) {
@@ -28,8 +28,8 @@ public class SyncServerConfigS2C {
         this.enableTelegraphedAttacks = buffer.readBoolean();
         this.enableBetterMinigames = buffer.readBoolean();
         this.enablePreciseHealthGain = buffer.readBoolean();
-        this.enablePreciseStaminaGain = buffer.readBoolean();
         this.enablePreciseKiGain = buffer.readBoolean();
+        this.enablePreciseStaminaGain = buffer.readBoolean();
     }
 
     public void encode(FriendlyByteBuf buffer) {
@@ -37,8 +37,8 @@ public class SyncServerConfigS2C {
         buffer.writeBoolean(enableTelegraphedAttacks);
         buffer.writeBoolean(enableBetterMinigames);
         buffer.writeBoolean(enablePreciseHealthGain);
-        buffer.writeBoolean(enablePreciseStaminaGain);
         buffer.writeBoolean(enablePreciseKiGain);
+        buffer.writeBoolean(enablePreciseStaminaGain);
     }
 
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
@@ -49,8 +49,8 @@ public class SyncServerConfigS2C {
                     enableTelegraphedAttacks,
                     enableBetterMinigames,
                     enablePreciseHealthGain,
-                    enablePreciseStaminaGain,
-                    enablePreciseKiGain
+                    enablePreciseKiGain,
+                    enablePreciseStaminaGain
             );
         });
         context.setPacketHandled(true);

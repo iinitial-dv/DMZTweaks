@@ -41,8 +41,8 @@ public class UpdateServerConfigC2S {
                 case "enableTelegraphedAttacks" -> config.setTelegraphedAttacks(value);
                 case "enableBetterMinigames" -> config.setBetterMinigames(value);
                 case "enablePreciseHealthGain" -> config.setPreciseHealthGain(value);
-                case "enablePreciseStaminaGain" -> config.setPreciseStaminaGain(value);
                 case "enablePreciseKiGain" -> config.setPreciseKiGain(value);
+                case "enablePreciseStaminaGain" -> config.setPreciseStaminaGain(value);
                 default -> { /* ignore */ }
             }
 

@@ -53,10 +53,6 @@ public class SettingsScreen extends BaseMenuScreen {
     protected void init() {
         super.init();
         this.isOp = Minecraft.getInstance().player != null && Minecraft.getInstance().player.hasPermissions(2);
-        // getUiWidth()/getUiHeight() are NOT the same as this.width/this.height.
-        // They're the already scaled dimensions ScaledScreen uses so the menu
-        // renders at a consistent size regardless of the player's actual window
-        // size / GUI scale setting.
         this.menuX = this.getUiWidth() / 2 - MENU_WIDTH / 2;
         this.menuY = this.getUiHeight() / 2 - MENU_HEIGHT / 2;
         this.initTabs();
@@ -96,7 +92,7 @@ public class SettingsScreen extends BaseMenuScreen {
         settingSwitches.clear();
         settingLabels.clear();
 
-        // figure out how much there is to scroll through for whichever tab is active
+        // figure out how much there is to scroll for whichever tab is active
         List<ToggleRow> rows = currentTab == Tab.CLIENT ? buildClientRows() : buildServerRows();
         this.totalRows = rows.size();
         this.maxScroll = Math.max(0, rows.size() - MAX_VISIBLE_ROWS);
@@ -105,7 +101,7 @@ public class SettingsScreen extends BaseMenuScreen {
         int startY = menuY + TAB_Y + TAB_HEIGHT + 14;
         int switchX = menuX + MENU_WIDTH - 45;
         // only build widgets for rows currently scrolled into view. everything
-        // above/below the visible window doesn't get a widget at all
+        // above/below the visible window doesn't show
         int visibleEnd = Math.min(scrollOffset + MAX_VISIBLE_ROWS, rows.size());
         int trackHeight = MAX_VISIBLE_ROWS * ROW_HEIGHT;
 
@@ -139,16 +135,16 @@ public class SettingsScreen extends BaseMenuScreen {
         List<ToggleRow> rows = new ArrayList<>();
         rows.add(new ToggleRow("Show Telegraphed Attacks", client::isTelegraphedAttacksShown, client::setTelegraphedAttacks));
         rows.add(new ToggleRow("Show Precise Health Gain", client::isPreciseHealthGainShown, client::setPreciseHealthGain));
-        rows.add(new ToggleRow("Show Precise Stamina Gain", client::isPreciseStaminaGainShown, client::setPreciseStaminaGain));
         rows.add(new ToggleRow("Show Precise Ki Gain", client::isPreciseKiGainShown, client::setPreciseKiGain));
+        rows.add(new ToggleRow("Show Precise Stamina Gain", client::isPreciseStaminaGainShown, client::setPreciseStaminaGain));
         rows.add(new ToggleRow("Show Health Gain in HUD", client::isHealthGainInHudShown, client::setHealthGainInHud));
-        rows.add(new ToggleRow("Show Stamina Gain in HUD", client::isStaminaGainInHudShown, client::setStaminaGainInHud));
         rows.add(new ToggleRow("Show Ki Gain in HUD", client::isKiGainInHudShown, client::setKiGainInHud));
+        rows.add(new ToggleRow("Show Stamina Gain in HUD", client::isStaminaGainInHudShown, client::setStaminaGainInHud));
         return rows;
     }
 
     private List<ToggleRow> buildServerRows() {
-        // Reads from ViewClientServerConfig (the last value the server pushed to us
+        // Reads from ViewClientServerConfig (the last value the server pushed
         // via SyncServerConfigS2C), NOT ConfigManager.server(). on a dedicated
         // server that's a separate instance only on the client.
         List<ToggleRow> rows = new ArrayList<>();
@@ -156,8 +152,8 @@ public class SettingsScreen extends BaseMenuScreen {
         rows.add(new ToggleRow("Enable Telegraphed Attacks", ViewClientServerConfig::isTelegraphedAttacksEnabled, v -> sendServerToggle("enableTelegraphedAttacks", v)));
         rows.add(new ToggleRow("Enable Better Minigames", ViewClientServerConfig::isBetterMinigamesEnabled, v -> sendServerToggle("enableBetterMinigames", v)));
         rows.add(new ToggleRow("Enable Precise Health Gain", ViewClientServerConfig::isPreciseHealthGainEnabled, v -> sendServerToggle("enablePreciseHealthGain", v)));
-        rows.add(new ToggleRow("Enable Precise Stamina Gain", ViewClientServerConfig::isPreciseStaminaGainEnabled, v -> sendServerToggle("enablePreciseStaminaGain", v)));
         rows.add(new ToggleRow("Enable Precise Ki Gain", ViewClientServerConfig::isPreciseKiGainEnabled, v -> sendServerToggle("enablePreciseKiGain", v)));
+        rows.add(new ToggleRow("Enable Precise Stamina Gain", ViewClientServerConfig::isPreciseStaminaGainEnabled, v -> sendServerToggle("enablePreciseStaminaGain", v)));
         return rows;
     }
 
@@ -246,8 +242,7 @@ public class SettingsScreen extends BaseMenuScreen {
         graphics.blit(MENU, menuX, menuY, 0, 0, MENU_WIDTH, MENU_HEIGHT, TEX_WIDTH, TEX_HEIGHT);
         super.render(graphics, uiMouseX, uiMouseY, partialTick);
 
-        // labels live outside SwitchButton itself (it's just the switch graphic,
-        // no text), so draw them manually next to each one every frame
+        // draw labels
         for (int i = 0; i < settingSwitches.size(); i++) {
             SwitchButton button = settingSwitches.get(i);
             String label = settingLabels.get(i);
@@ -255,7 +250,7 @@ public class SettingsScreen extends BaseMenuScreen {
                     menuX + 24, button.getY() + 1, 0xFFFFFFFF);
         }
 
-        // only draw a scrollbar at all if there's actually more content than fits
+        // only draw a scrollbar if there's actually more content than what fits
         if (maxScroll > 0) {
             int barX = menuX + MENU_WIDTH - SCROLLBAR_FROM_RIGHT;
             int trackY = menuY + TAB_Y + TAB_HEIGHT + 9;
@@ -285,7 +280,6 @@ public class SettingsScreen extends BaseMenuScreen {
     private record ToggleRow(String label, BooleanSupplier getter, Consumer<Boolean> setter) {
     }
 
-    // Uses my "selected" texture whenever it's the active tab, or you're just hovering over it
     private class TabButton extends Button {
         private final Tab tab;
         private final int uUnselected, vUnselected, uSelected, vSelected;

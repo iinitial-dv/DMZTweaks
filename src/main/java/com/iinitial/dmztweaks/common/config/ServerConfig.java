@@ -2,16 +2,16 @@ package com.iinitial.dmztweaks.common.config;
 
 public class ServerConfig {
     // Balance changes made to classes so that tank isn't the most picked class.
-    public boolean enableBalancedClasses;
+    public boolean enableBalancedClasses = true;
     // Arrows above enemies before they attack.
-    public boolean enableTelegraphedAttacks;
+    public boolean enableTelegraphedAttacks = true;
     // Changes minigames so that they're possible at higher levels.
-    public boolean enableBetterMinigames;
+    public boolean enableBetterMinigames = true;
     // Changes the calculated health/stamina/ki gain to be precise instead of rounding to the whole number when applying
     // to character. The displayed number will still be a whole number. The change is behind the scenes.
-    public boolean enablePreciseHealthGain;
-    public boolean enablePreciseStaminaGain;
-    public boolean enablePreciseKiGain;
+    public boolean enablePreciseHealthGain = true;
+    public boolean enablePreciseKiGain = true;
+    public boolean enablePreciseStaminaGain = true;
 
     // Getters for Server related Configs
     public boolean isBalancedClassesEnabled() {
@@ -30,12 +30,12 @@ public class ServerConfig {
         return enablePreciseHealthGain;
     }
 
-    public boolean isPreciseStaminaGainEnabled() {
-        return enablePreciseStaminaGain;
-    }
-
     public boolean isPreciseKiGainEnabled() {
         return enablePreciseKiGain;
+    }
+
+    public boolean isPreciseStaminaGainEnabled() {
+        return enablePreciseStaminaGain;
     }
 
     // Setters for Server related Configs
@@ -51,6 +51,7 @@ public class ServerConfig {
 
     public void setBetterMinigames(boolean value) {
         enableBetterMinigames = value;
+        ConfigManager.saveServerConfig();
     }
 
     public void setPreciseHealthGain(boolean value) {
@@ -58,13 +59,13 @@ public class ServerConfig {
         ConfigManager.saveServerConfig();
     }
 
-    public void setPreciseStaminaGain(boolean value) {
-        enablePreciseStaminaGain = value;
+    public void setPreciseKiGain(boolean value) {
+        enablePreciseKiGain = value;
         ConfigManager.saveServerConfig();
     }
 
-    public void setPreciseKiGain(boolean value) {
-        enablePreciseKiGain = value;
+    public void setPreciseStaminaGain(boolean value) {
+        enablePreciseStaminaGain = value;
         ConfigManager.saveServerConfig();
     }
 }
